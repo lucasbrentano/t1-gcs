@@ -3,18 +3,17 @@ public class Pedido {
     private final Departamento departamento;
     private final String dataAbertura;
     private final String dataFechamento;
-    private final Status status;
+    private Status status;
     private final double valorTotal;
 
     public Pedido(
             Funcionario funcionario,
-            Departamento departamento,
             String dataAbertura,
             String dataFechamento,
             double valorTotal
     ) {
         this.funcionario = funcionario;
-        this.departamento = departamento;
+        this.departamento = new Departamento(dataFechamento, valorTotal);
         this.dataAbertura = dataAbertura;
         this.dataFechamento = dataFechamento;
         this.valorTotal = valorTotal;
@@ -22,3 +21,5 @@ public class Pedido {
     }
 
 }
+// Arrumar o construtor para setar o departamento
+// Verificar se o valor total do pedido ultrapassa o limite definido

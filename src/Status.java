@@ -1,3 +1,3 @@
 public enum Status {
-    ABERTO, APROVADO, REPROVADO;
+    ABERTO, APROVADO, REPROVADO, CONCLUIDO;
 }
