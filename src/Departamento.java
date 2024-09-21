@@ -1,5 +1,3 @@
-package src;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +12,6 @@ public class Departamento {
         this.pedidos = new ArrayList<>();
         this.nome = nome;
         this.limite = limite;
-    }
-
-    public String getNome() {
-        return nome;
     }
 }
 
