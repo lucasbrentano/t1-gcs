@@ -1,5 +1,12 @@
+package src;
+
+import src.Departamento;
+
 public class Administrador extends Funcionario {
 
+    public Administrador(String nome, String id, Departamento departamento) {
+        super(nome, id, departamento);
+    }
 }
 
 /*Somente um administrador pode avaliar um pedido que esteja aberto para aprová-lo ou rejeitá-lo. Permitir

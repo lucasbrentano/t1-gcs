@@ -1,6 +1,21 @@
+package src;
+
 public abstract class Usuario {
     private String nome;
     private String id;
+
+    protected Usuario(final String nome, final String id) {
+        this.nome = nome;
+        this.id = id;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public String getId() {
+        return this.id;
+    }
 }
 
 // adicionar os tipos (Funcionario ou Administrador)
