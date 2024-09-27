@@ -25,6 +25,10 @@ public class Departamento {
     public boolean cadastraFuncionario(Funcionario funcionario){
         return funcionarios.add(funcionario);   
     }
+
+    public List<Pedido> getPedidos(){
+        return pedidos;
+    }
 }
 
 //Cadastrar 5 departamentos iniciais (Financeiro, Logistico, RH, Projetos, Produção, TI, Manutenção).
