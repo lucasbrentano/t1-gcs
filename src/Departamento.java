@@ -13,6 +13,18 @@ public class Departamento {
         this.nome = nome;
         this.limite = limite;
     }
+
+    public String getNome(){
+        return nome;
+    }
+
+    public double getLimite(){
+        return limite;
+    }
+
+    public boolean cadastraFuncionario(Funcionario funcionario){
+        return funcionarios.add(funcionario);   
+    }
 }
 
 //Cadastrar 5 departamentos iniciais (Financeiro, Logistico, RH, Projetos, Produção, TI, Manutenção).
