@@ -1,6 +1,5 @@
 public abstract class Usuario {
     private String nome;
-    public int id = 0;
 
     public Usuario(String nome) {
         this.nome = nome;

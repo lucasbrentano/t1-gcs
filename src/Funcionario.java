@@ -3,7 +3,6 @@ public class Funcionario extends Usuario{
     public Funcionario(String nome, Departamento departamento) {
         super(nome);
         this.departamento = departamento;
-        id++;
     }
 
     public Departamento getDepartamento() {
