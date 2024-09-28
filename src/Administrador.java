@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
@@ -33,14 +34,25 @@ public class Administrador extends Funcionario {
     }
 
     public void getPedidosDoMes(){
-        for (Pedido p : getDepartamento().getPedidos()){
-//            if (p.getDataAbertura()){
+        List<Pedido> result = new ArrayList<>();
+        double valorMedio = 0;
 
+        for (Pedido p : getDepartamento().getPedidos()){
+            if ( p.getDataAbertura().isBefore(LocalDate.now().minusDays(30))){
+                result.add(p);
             }
         }
+
+        for (Pedido p : result){
+            valorMedio += p.getValorTotal();
+        }
+
+        System.out.println("Pedidos dos ultimos 30 dias: " );
+        System.out.println(result);
+        System.out.println("Valor medio dos pedidos: " + valorMedio/result.size() );
+
     }
 }
 
-//Número de pedidos nos últimos 30 dias e seu valor médio.
 //Valor total de cada tipo de item nos últimos 30 dias.
 //        Detalhes do pedido de aquisição de maior valor ainda aberto.
