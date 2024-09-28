@@ -76,7 +76,22 @@ public class Administrador extends Funcionario {
         System.out.println("Valor medio dos pedidos: " + valorMedio / result.size());
         System.out.println("Valor de cada item: " + valores);
     }
-}
 
-//Valor total de cada tipo de item nos últimos 30 dias.
-//Detalhes do pedido de aquisição de maior valor ainda aberto.
+    public void getPedidoMaisCaro(){
+        List<Pedido> pedidos = super.getDepartamento().getPedidos();
+        Pedido pedidoMaisCaro = pedidos.getFirst();
+
+            for (Pedido p : pedidos) {
+                if (p.getStatus() == Status.ABERTO &&
+                        p.getValorTotal() > pedidoMaisCaro.getValorTotal()) {
+                    pedidoMaisCaro = p;
+                }
+            }
+
+        if (pedidoMaisCaro.getStatus() == Status.ABERTO) {
+            System.out.println("Pedido mais caro aberto: " + pedidoMaisCaro);
+        } else {
+            System.out.println("Nenhum pedido aberto.");
+        }
+    }
+}
