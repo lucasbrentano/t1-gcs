@@ -14,10 +14,24 @@ public class Departamento {
         this.limite = limite;
     }
 
-    public List<Pedido> getPedidos() {
+    public String getNome(){
+        return nome;
+    }
+
+    public double getLimite(){
+        return limite;
+    }
+
+    public boolean cadastraFuncionario(Funcionario funcionario){
+        return funcionarios.add(funcionario);   
+    }
+
+    public List<Pedido> getPedidos(){
         return pedidos;
     }
-}
 
-//Cadastrar 5 departamentos iniciais (Financeiro, Logistico, RH, Projetos, Produção, TI, Manutenção).
-//Adicionar n funcionários em cada departamento (15 min.)
+    public List<Funcionario> getFuncionarios(){
+        return funcionarios;
+    }
+    
+}
