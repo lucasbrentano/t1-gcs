@@ -168,6 +168,36 @@ public class Empresa {
         }
 
         }
+        private void buscaPedidosPorFuncionario(){
+            System.out.println("Digite o codigo do usuario");
+            int codigoUsuario = scanner.nextInt();
+            scanner.nextLine();
+            Funcionario usuario = null;
+            for(Usuario u : usuarios){
+                if(u.getId() == codigoUsuario){
+                    usuario = (Funcionario) u;
+                    break;
+                }
+            }
+    
+            if(usuario == null){
+                System.out.println("Usuario não encontrado");
+                return;
+            }
+    
+            List<Pedido> pedidosDepartamento = usuario.getDepartamento().getPedidos();
+    
+            List<Pedido> pedidoUsuario = ((Administrador) usuarioAtivo).buscarPedidosPorFuncionario(pedidosDepartamento,usuario);
+    
+            for(Pedido p : pedidoUsuario){
+                System.out.println("╔══════════════════════════════════════════════════════╗");
+                System.out.println("║                      PEDIDO                          ║");
+                System.out.println("╚══════════════════════════════════════════════════════╝");
+    
+                System.out.println(p);
+            }
+    
+        }
 
 }
 
