@@ -55,14 +55,14 @@ public class Empresa {
             scanner.nextLine();
 
             if (usuarioAtivo == null){
-                 // TODO trocaUsuario();
+                trocaUsuario();
             }
 
             if (usuarioAtivo instanceof Administrador) {
                 menuAdministrador();
                 switch (opcao) {
                     case 1:
-                        // TODO trocaUsuario();
+                        trocaUsuario();
                         break;
                     case 2:
                         // TODO registraPedido();
@@ -92,7 +92,7 @@ public class Empresa {
                 menuFuncionario();
                 switch (opcao) {
                     case 1:
-                        // TODO trocaUsuario();
+                        trocaUsuario();
                         break;
                     case 2:
                         // TODO registraPedido();
@@ -131,6 +131,19 @@ public class Empresa {
         System.out.println("║ 3 - Exclui Pedido                                    ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
         System.out.print("Escolha uma opção: ");
+    }
+
+    private void trocaUsuario() { 
+        System.out.println("Digite o nome do usuario");
+        int codigoUsuario = scanner.nextInt();
+
+        for(Usuario u : usuarios){
+            if(u.getId() == codigoUsuario){
+                usuarioAtivo = u;
+                return;
+            }
+        }
+
     }
 
 }
