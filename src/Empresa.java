@@ -59,6 +59,7 @@ public class Empresa {
             }
 
             if (usuarioAtivo instanceof Administrador) {
+                menuAdministrador();
                 switch (opcao) {
                     case 1:
                         // TODO trocaUsuario();
@@ -88,6 +89,7 @@ public class Empresa {
                         break;
                 }
             } else {
+                menuFuncionario();
                 switch (opcao) {
                     case 1:
                         // TODO trocaUsuario();
