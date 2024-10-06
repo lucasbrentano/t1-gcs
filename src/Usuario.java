@@ -9,8 +9,12 @@ public abstract class Usuario {
         this.id = count;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
     public int getId(){
-        return id; 
+        return id;
     }
 
     public abstract void getPedidos();
