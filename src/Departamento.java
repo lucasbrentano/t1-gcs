@@ -14,6 +14,3 @@ public class Departamento {
         this.limite = limite;
     }
 }
-
-//Cadastrar 5 departamentos iniciais (Financeiro, Logistico, RH, Projetos, Produção, TI, Manutenção).
-//Adicionar n funcionários em cada departamento (15 min.)
