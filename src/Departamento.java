@@ -33,6 +33,5 @@ public class Departamento {
     public List<Funcionario> getFuncionarios(){
         return funcionarios;
     }
-
     
 }

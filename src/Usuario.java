@@ -1,8 +1,18 @@
 public abstract class Usuario {
     private String nome;
-    private String id;
-}
+    private static int count = 0;
+    private int id;
 
-// adicionar os tipos (Funcionario ou Administrador)
-// Criar Método para ID
-// Criar Método abstrato para registro de novos pedidos (Recebe como parâmetros uma lista de item)
+    public Usuario(String nome){
+        this.nome = nome;
+        count ++;
+        this.id = count;
+    }
+
+    public int getId(){
+        return id; 
+    }
+
+    public abstract void getPedidos();
+
+}

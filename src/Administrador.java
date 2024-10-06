@@ -1,17 +1,97 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
+
 public class Administrador extends Funcionario {
 
+    public Administrador(String nome, Departamento departamento) {
+        super(nome, departamento);
+    }
+
+    public void getPedidos() {
+        List<Pedido> pedidos = super.getDepartamento().getPedidos();
+        List<Pedido> aprovados = new ArrayList<>();
+        List<Pedido> reprovados = new ArrayList<>();
+
+        for (Pedido p : pedidos) {
+            if (p.getStatus() == Status.APROVADO) {
+                aprovados.add(p);
+            } else if (p.getStatus() == Status.REPROVADO) {
+                reprovados.add(p);
+            }
+        }
+
+        System.out.println("Aprovados:");
+        System.out.println(aprovados);
+        System.out.println("Aprovados (%):" + aprovados.size() / pedidos.size());
+
+        System.out.println("Reprovados:");
+        System.out.println(reprovados);
+        System.out.println("Reprovados: " + reprovados.size() / pedidos.size() + "%");
+    }
+
+    public void getPedidosDoMes() {
+        List<Pedido> result = new ArrayList<>();
+        double valorMedio = 0;
+
+        for (Pedido p : getDepartamento().getPedidos()) {
+            if (p.getDataAbertura().isBefore(LocalDate.now().minusDays(30))) {
+                result.add(p);
+            }
+        }
+
+        for (Pedido p : result) {
+            valorMedio += p.getValorTotal();
+        }
+
+        List<Item> itens = new ArrayList<>();
+        List<String> valores = new ArrayList<>();
+
+
+        for (Pedido p : result) {
+            for (Item i : p.getItens()) {
+                if (!itens.contains(i)) {
+                    itens.add(i);
+                }
+            }
+
+            for (Item item : itens) {
+                double valor = 0;
+
+                for (Item i : p.getItens()) {
+                    if (item.getDescricao().equals(i.getDescricao())) {
+                        valor += i.getValorTotal();
+                    }
+                }
+
+                String itemValue = "Item: %s , Valor: %d ";
+                String itemValueFormat = String.format(itemValue, item.getDescricao(), valor);
+
+                valores.add(itemValueFormat);
+            }
+        }
+
+        System.out.println("Pedidos dos ultimos 30 dias: ");
+        System.out.println(result);
+        System.out.println("Valor medio dos pedidos: " + valorMedio / result.size());
+        System.out.println("Valor de cada item: " + valores);
+    }
+
+    public void getPedidoMaisCaro(){
+        List<Pedido> pedidos = super.getDepartamento().getPedidos();
+        Pedido pedidoMaisCaro = pedidos.getFirst();
+
+            for (Pedido p : pedidos) {
+                if (p.getStatus() == Status.ABERTO &&
+                        p.getValorTotal() > pedidoMaisCaro.getValorTotal()) {
+                    pedidoMaisCaro = p;
+                }
+            }
+
+        if (pedidoMaisCaro.getStatus() == Status.ABERTO) {
+            System.out.println("Pedido mais caro aberto: " + pedidoMaisCaro);
+        } else {
+            System.out.println("Nenhum pedido aberto.");
+        }
+    }
 }
-
-/*Somente um administrador pode avaliar um pedido que esteja aberto para aprová-lo ou rejeitá-lo. Permitir
-a um administrador
-5.8.1. Listar todos os pedidos entre duas datas
-5.8.2. Buscar pedidos por funcionário solicitante
-5.8.3. Buscar pedidos pela descrição de um item
-5.8.4. Visualizar os detalhes de um pedido para aprová-lo ou rejeitá-lo */
-
-/*O sistema deverá permitir a um administrador ver estatísticas gerais contendo:
-8.1. Número de pedidos total, divididos entre aprovados e reprovados (com percentuais).
-8.2. Número de pedidos nos últimos 30 dias e seu valor médio.
-8.3. Valor total de cada categoria nos últimos 30 dias.
-8.4. Detalhes do pedido de aquisição de maior valor ainda aberto.
- */
