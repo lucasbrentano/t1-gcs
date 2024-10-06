@@ -105,6 +105,21 @@ public class Empresa {
         }
     }
 
+    public void menuAdministrador(){
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                     MENU PRINCIPAL                   ║");
+        System.out.println("╠══════════════════════════════════════════════════════╣");
+        System.out.println("║ 1 - Trocar Usuário                                   ║");
+        System.out.println("║ 2 - Registrar Pedido                                 ║");
+        System.out.println("║ 3 - Exclui Pedido                                    ║");
+        System.out.println("║ 4 - Avalia Pedido                                    ║");
+        System.out.println("║ 6 - Busca Pedidos Por Funcionario                    ║");
+        System.out.println("║ 7 - Busca Pedidos Por Descricao                      ║");
+        System.out.println("║ 8 - Mostra Estatisticas                              ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
+        System.out.print("Escolha uma opção: ");
+      }
+
 }
 
 //Fazer com que seja possível definir o usuário ativo.
