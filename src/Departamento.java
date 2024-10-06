@@ -13,4 +13,25 @@ public class Departamento {
         this.nome = nome;
         this.limite = limite;
     }
+
+    public String getNome(){
+        return nome;
+    }
+
+    public double getLimite(){
+        return limite;
+    }
+
+    public boolean cadastraFuncionario(Funcionario funcionario){
+        return funcionarios.add(funcionario);   
+    }
+
+    public List<Pedido> getPedidos(){
+        return pedidos;
+    }
+
+    public List<Funcionario> getFuncionarios(){
+        return funcionarios;
+    }
+    
 }
