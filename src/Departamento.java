@@ -29,4 +29,10 @@ public class Departamento {
     public List<Pedido> getPedidos(){
         return pedidos;
     }
+
+    public List<Funcionario> getFuncionarios(){
+        return funcionarios;
+    }
+
+    
 }
