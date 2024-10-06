@@ -45,8 +45,6 @@ public class Empresa {
             // d.addFuncionario(f);
         }
     }
-
-
     public void executa() {
         this.initDepartamentosIniciais();
 
@@ -69,6 +67,7 @@ public class Empresa {
                         break;
                     case 3:
                         // TODO excluiPedido();
+                        excluiPedido();
                         break;
                     case 4:
                         // TODO avaliaPedido();
@@ -99,6 +98,7 @@ public class Empresa {
                         break;
                     case 3:
                         // TODO excluiPedido();
+                        excluiPedido();
                         break;
                     default:
                         break;
@@ -145,6 +145,29 @@ public class Empresa {
         }
 
     }
+
+    private void excluiPedido(){
+        Pedido pedidoParaExcluir = null;
+        Departamento departamentoPedido = null;
+        for(Departamento d : departamentos){
+            for(Pedido p : d.getPedidos()) {
+                if(p.getFuncionario().equals(usuarioAtivo) && p.getStatus().equals("ABERTO"));
+                pedidoParaExcluir = p;
+                departamentoPedido = d;
+                break;
+            }
+
+        }
+
+        if(pedidoParaExcluir != null && departamentoPedido != null ){
+            departamentoPedido.getPedidos().remove(pedidoParaExcluir);
+            System.out.println("Pedido excluido com sucesso!");
+
+        } else {
+            System.out.println("Pedido não encontrado ou não pode ser excluído.");
+        }
+
+        }
 
 }
 
