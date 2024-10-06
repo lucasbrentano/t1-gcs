@@ -118,7 +118,18 @@ public class Empresa {
         System.out.println("║ 8 - Mostra Estatisticas                              ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
         System.out.print("Escolha uma opção: ");
-      }
+    }
+
+    public void menuFuncionario(){
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                     MENU PRINCIPAL                   ║");
+        System.out.println("╠══════════════════════════════════════════════════════╣");
+        System.out.println("║ 1 - Trocar Usuário                                   ║");
+        System.out.println("║ 2 - Registrar Pedido                                 ║");
+        System.out.println("║ 3 - Exclui Pedido                                    ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
+        System.out.print("Escolha uma opção: ");
+    }
 
 }
 
