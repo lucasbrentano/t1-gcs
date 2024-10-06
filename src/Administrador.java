@@ -30,6 +30,43 @@ public class Administrador extends Funcionario {
         System.out.println("Reprovados: " + reprovados.size() / pedidos.size() + "%");
     }
 
+    public static List<Pedido> listarPedidosEntreDatas(List<Pedido> listaPedidos, LocalDate dataInicio, LocalDate dataFim) {
+        List<Pedido> pedidosFiltrados = new ArrayList<>();
+        for (Pedido pedido : listaPedidos) {
+            if (!pedido.getDataAbertura().isBefore(dataInicio) && !pedido.getDataFechamento().isAfter(dataFim)) {
+                pedidosFiltrados.add(pedido);
+            }
+        }
+        return pedidosFiltrados;
+    }
+
+    public static List<Pedido> buscarPedidosPorFuncionario(List<Pedido> listaPedidos, Funcionario funcionario) {
+        List<Pedido> pedidosFiltrados = new ArrayList<>();
+        for (Pedido pedido : listaPedidos) {
+            if (pedido.getFuncionario().getNome().equalsIgnoreCase(funcionario.getNome())) {
+                pedidosFiltrados.add(pedido);
+            }
+        }
+        return pedidosFiltrados;
+    }
+
+    public static List<Pedido> buscarPedidosPorItem(List<Pedido> listaPedidos, String descricaoItem) {
+        List<Pedido> pedidosFiltrados = new ArrayList<>();
+        for (Pedido pedido : listaPedidos) {
+            for (Item item : pedido.getItens()) {
+                if (item.getDescricao().equalsIgnoreCase(descricaoItem)) {
+                    pedidosFiltrados.add(pedido);
+                    break;
+                }
+            }
+        }
+        return pedidosFiltrados;
+    }
+
+    public static String visualizarPedido(Pedido pedido) {
+        return pedido.toString();
+    }
+
     public void getPedidosDoMes() {
         List<Pedido> result = new ArrayList<>();
         double valorMedio = 0;
