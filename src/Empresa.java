@@ -70,7 +70,7 @@ public class Empresa {
                         excluiPedido();
                         break;
                     case 4:
-                        // TODO avaliaPedido();
+                        avaliaPedido();
                         break;
                     case 5:
                         // TODO listaPedidos();
@@ -146,12 +146,12 @@ public class Empresa {
 
     }
 
-    private void excluiPedido(){
+    private void excluiPedido() {
         Pedido pedidoParaExcluir = null;
         Departamento departamentoPedido = null;
-        for(Departamento d : departamentos){
-            for(Pedido p : d.getPedidos()) {
-                if(p.getFuncionario().equals(usuarioAtivo) && p.getStatus().equals("ABERTO"));
+        for (Departamento d : departamentos) {
+            for (Pedido p : d.getPedidos()) {
+                if (p.getFuncionario().equals(usuarioAtivo) && p.getStatus().equals("ABERTO")) ;
                 pedidoParaExcluir = p;
                 departamentoPedido = d;
                 break;
@@ -159,46 +159,82 @@ public class Empresa {
 
         }
 
-        if(pedidoParaExcluir != null && departamentoPedido != null ){
+        if (pedidoParaExcluir != null && departamentoPedido != null) {
             departamentoPedido.getPedidos().remove(pedidoParaExcluir);
             System.out.println("Pedido excluido com sucesso!");
 
         } else {
             System.out.println("Pedido não encontrado ou não pode ser excluído.");
         }
+    }
 
-        }
-        private void buscaPedidosPorFuncionario(){
-            System.out.println("Digite o codigo do usuario");
-            int codigoUsuario = scanner.nextInt();
-            scanner.nextLine();
-            Funcionario usuario = null;
-            for(Usuario u : usuarios){
-                if(u.getId() == codigoUsuario){
-                    usuario = (Funcionario) u;
-                    break;
+    private void avaliaPedido() {
+        System.out.println("Informe a ID do pedido: ");
+        int codigoPedido = scanner.nextInt();
+        scanner.nextLine();
+        for (Departamento d : departamentos) {
+            if (((Funcionario)usuarioAtivo).getDepartamento().equals(d)) {
+                for (Pedido p : d.getPedidos()) {
+                    if (p.getId() == codigoPedido && p.getStatus().equals(Status.ABERTO)) {
+                        System.out.println("Pedido " + p.getId() + " encontrado. \n" +
+                                            p.toString() +
+                                            "\nSelecione uma opção: ");
+                        System.out.println("1 - Aprovar pedido.");
+                        System.out.println("2 - Reprovar pedido.");
+                        System.out.println("3 - Sair");
+                        int opcao = scanner.nextInt();
+                        scanner.nextLine();
+                        switch (opcao) {
+                            case 1:
+                                p.setStatus(Status.APROVADO);
+                                System.out.println("Pedido aprovado com sucesso!");
+                                break;
+                            case 2:
+                                p.setStatus(Status.REPROVADO);
+                                System.out.println("Pedido reprovado com sucesso!");
+                                break;
+                            default:
+                                break;
+                        }
+                    } else if (p.getId() == codigoPedido && !p.getStatus().equals(Status.ABERTO)) {
+                        System.out.println("Pedido " + p.getId() + " encerrado.");
+                    } else {
+                        System.out.println("Pedido não encontrado!");
+                    }
                 }
             }
-    
-            if(usuario == null){
-                System.out.println("Usuario não encontrado");
-                return;
+        }
+    }
+
+    private void buscaPedidosPorFuncionario(){
+        System.out.println("Digite o codigo do usuario");
+        int codigoUsuario = scanner.nextInt();
+        scanner.nextLine();
+        Funcionario usuario = null;
+        for(Usuario u : usuarios){
+            if(u.getId() == codigoUsuario){
+                usuario = (Funcionario) u;
+                break;
             }
-    
-            List<Pedido> pedidosDepartamento = usuario.getDepartamento().getPedidos();
-    
-            List<Pedido> pedidoUsuario = ((Administrador) usuarioAtivo).buscarPedidosPorFuncionario(pedidosDepartamento,usuario);
-    
-            for(Pedido p : pedidoUsuario){
-                System.out.println("╔══════════════════════════════════════════════════════╗");
-                System.out.println("║                      PEDIDO                          ║");
-                System.out.println("╚══════════════════════════════════════════════════════╝");
-    
-                System.out.println(p);
-            }
-    
         }
 
+        if(usuario == null){
+            System.out.println("Usuario não encontrado");
+            return;
+        }
+
+        List<Pedido> pedidosDepartamento = usuario.getDepartamento().getPedidos();
+
+        List<Pedido> pedidoUsuario = ((Administrador) usuarioAtivo).buscarPedidosPorFuncionario(pedidosDepartamento,usuario);
+
+        for(Pedido p : pedidoUsuario){
+            System.out.println("╔══════════════════════════════════════════════════════╗");
+            System.out.println("║                      PEDIDO                          ║");
+            System.out.println("╚══════════════════════════════════════════════════════╝");
+
+            System.out.println(p);
+        }
+    }
 }
 
 //Fazer com que seja possível definir o usuário ativo.
