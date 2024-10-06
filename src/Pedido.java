@@ -1,5 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Pedido {
@@ -10,18 +12,26 @@ public class Pedido {
     private LocalDate dataFechamento;
     private Status status;
     private final double valorTotal;
+    private final List<Item> itens;
 
     public Pedido (Funcionario funcionario, double valorTotal) {
         this.funcionario = funcionario;
         this.departamento = funcionario.getDepartamento();
         this.dataAbertura = LocalDate.now();
         this.valorTotal = valorTotal;
+        this.itens = new ArrayList<>();
         if (valorTotal > departamento.getLimite()) {
             this.dataFechamento = LocalDate.now();
             this.status = Status.REPROVADO;
         } else {
             this.status = Status.ABERTO;
         }
+    }
+
+    public void addItem(Item item, int quantidade){
+        item.setValorTotal(quantidade);
+        itens.add(item);
+
     }
 
     public Funcionario getFuncionario() {
@@ -54,6 +64,10 @@ public class Pedido {
 
     public void setStatus(final Status status) {
         this.status = status;
+    }
+
+    public List<Item> getItens(){
+        return itens;
     }
 
     public String toString() {
