@@ -13,10 +13,6 @@ public class Departamento {
         this.nome = nome;
         this.limite = limite;
     }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
 }
 
 //Cadastrar 5 departamentos iniciais (Financeiro, Logistico, RH, Projetos, Produção, TI, Manutenção).
