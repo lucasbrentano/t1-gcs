@@ -115,7 +115,7 @@ public class Administrador extends Funcionario {
         System.out.println("Valor de cada item: " + valores);
     }
 
-    public void getPedidoMaisCaro(){
+    public Pedido getPedidoMaisCaro(){
         List<Pedido> pedidos = super.getDepartamento().getPedidos();
         Pedido pedidoMaisCaro = pedidos.getFirst();
 
@@ -127,9 +127,9 @@ public class Administrador extends Funcionario {
             }
 
         if (pedidoMaisCaro.getStatus() == Status.ABERTO) {
-            System.out.println("Pedido mais caro aberto: " + pedidoMaisCaro);
+            return pedidoMaisCaro;
         } else {
-            System.out.println("Nenhum pedido aberto.");
+            return null;
         }
     }
 }

@@ -240,6 +240,7 @@ public class Empresa {
         List<Pedido> reprovados = pedidos.get(Status.APROVADO);
         List<Pedido> total = pedidos.get(Status.ABERTO);
 
+        Pedido pedidoMaisCaro = ((Administrador) usuarioAtivo).getPedidoMaisCaro();
 
         System.out.println("╔══════════════════════════════════════════════════════╗");
         System.out.println("║                     ESTATISTICAS                     ║");
@@ -252,6 +253,12 @@ public class Empresa {
         System.out.println("Pedidos reprovados:");
         System.out.println(reprovados);
         System.out.println("Reprovados: " + reprovados.size() / total.size() + "%");
+
+        if (pedidoMaisCaro == null){
+            System.out.println("Não há pedido");
+        } else {
+            System.out.println("Pedido de maior valor:" + pedidoMaisCaro);
+        }
     }
 }
 
