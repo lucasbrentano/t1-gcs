@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Empresa {
     private final List<Departamento> departamentos;
@@ -82,7 +79,7 @@ public class Empresa {
                         // TODO buscaPedidosPorDescricao();
                         break;
                     case 8:
-                        // TODO mostraEstatisticas();
+                        mostraEstatisticas();
                         break;
                     default:
                         break;
@@ -234,6 +231,27 @@ public class Empresa {
 
             System.out.println(p);
         }
+    }
+
+    private void mostraEstatisticas(){
+
+        Map<Status, List<Pedido>> pedidos = ((Administrador) usuarioAtivo).getPedidos();
+        List<Pedido> aprovados = pedidos.get(Status.APROVADO);
+        List<Pedido> reprovados = pedidos.get(Status.APROVADO);
+        List<Pedido> total = pedidos.get(Status.ABERTO);
+
+
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                     ESTATISTICAS                     ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
+
+        System.out.println("Pedidos aprovados:");
+        System.out.println(aprovados);
+        System.out.println("Aprovados (%):" + aprovados.size() / total.size() + "%");
+
+        System.out.println("Pedidos reprovados:");
+        System.out.println(reprovados);
+        System.out.println("Reprovados: " + reprovados.size() / total.size() + "%");
     }
 }
 

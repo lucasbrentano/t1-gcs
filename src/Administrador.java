@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Map;
 
 public class Administrador extends Funcionario {
 
@@ -8,10 +10,11 @@ public class Administrador extends Funcionario {
         super(nome, departamento);
     }
 
-    public void getPedidos() {
+    public Map<Status, List<Pedido>> getPedidos() {
         List<Pedido> pedidos = super.getDepartamento().getPedidos();
         List<Pedido> aprovados = new ArrayList<>();
         List<Pedido> reprovados = new ArrayList<>();
+        Map<Status, List<Pedido>> result = new HashMap<>();
 
         for (Pedido p : pedidos) {
             if (p.getStatus() == Status.APROVADO) {
@@ -21,13 +24,11 @@ public class Administrador extends Funcionario {
             }
         }
 
-        System.out.println("Aprovados:");
-        System.out.println(aprovados);
-        System.out.println("Aprovados (%):" + aprovados.size() / pedidos.size());
+        result.put(Status.APROVADO, aprovados);
+        result.put(Status.REPROVADO, reprovados);
+        result.put(Status.ABERTO, pedidos);
 
-        System.out.println("Reprovados:");
-        System.out.println(reprovados);
-        System.out.println("Reprovados: " + reprovados.size() / pedidos.size() + "%");
+        return result;
     }
 
     public static List<Pedido> listarPedidosEntreDatas(List<Pedido> listaPedidos, LocalDate dataInicio, LocalDate dataFim) {
