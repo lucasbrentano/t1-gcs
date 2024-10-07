@@ -1,3 +1,4 @@
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,25 +69,26 @@ public class Administrador extends Funcionario {
         return pedido.toString();
     }
 
-    public void getPedidosDoMes() {
-        List<Pedido> result = new ArrayList<>();
-        double valorMedio = 0;
+    public List<Pedido> getPedidosDoMes() {
+        List<Pedido> pedidosDoMes = new ArrayList<>();
+        double valorTotal = 0;
 
         for (Pedido p : getDepartamento().getPedidos()) {
             if (p.getDataAbertura().isBefore(LocalDate.now().minusDays(30))) {
-                result.add(p);
+                pedidosDoMes.add(p);
             }
         }
 
-        for (Pedido p : result) {
-            valorMedio += p.getValorTotal();
-        }
+        return pedidosDoMes;
+    }
 
+    public List<String> getValorCadaItem() {
+
+        List<Pedido> pedidosDoMes = getPedidosDoMes();
         List<Item> itens = new ArrayList<>();
-        List<String> valores = new ArrayList<>();
+        List<String> valorCadaItem = new ArrayList<>();
 
-
-        for (Pedido p : result) {
+        for (Pedido p : pedidosDoMes) {
             for (Item i : p.getItens()) {
                 if (!itens.contains(i)) {
                     itens.add(i);
@@ -105,26 +107,24 @@ public class Administrador extends Funcionario {
                 String itemValue = "Item: %s , Valor: %d ";
                 String itemValueFormat = String.format(itemValue, item.getDescricao(), valor);
 
-                valores.add(itemValueFormat);
+                valorCadaItem.add(itemValueFormat);
             }
         }
 
-        System.out.println("Pedidos dos ultimos 30 dias: ");
-        System.out.println(result);
-        System.out.println("Valor medio dos pedidos: " + valorMedio / result.size());
-        System.out.println("Valor de cada item: " + valores);
+
+        return valorCadaItem;
     }
 
-    public Pedido getPedidoMaisCaro(){
+    public Pedido getPedidoMaisCaro() {
         List<Pedido> pedidos = super.getDepartamento().getPedidos();
         Pedido pedidoMaisCaro = pedidos.getFirst();
 
-            for (Pedido p : pedidos) {
-                if (p.getStatus() == Status.ABERTO &&
-                        p.getValorTotal() > pedidoMaisCaro.getValorTotal()) {
-                    pedidoMaisCaro = p;
-                }
+        for (Pedido p : pedidos) {
+            if (p.getStatus() == Status.ABERTO &&
+                    p.getValorTotal() > pedidoMaisCaro.getValorTotal()) {
+                pedidoMaisCaro = p;
             }
+        }
 
         if (pedidoMaisCaro.getStatus() == Status.ABERTO) {
             return pedidoMaisCaro;

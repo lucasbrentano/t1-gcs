@@ -239,6 +239,15 @@ public class Empresa {
         List<Pedido> aprovados = pedidos.get(Status.APROVADO);
         List<Pedido> reprovados = pedidos.get(Status.APROVADO);
         List<Pedido> total = pedidos.get(Status.ABERTO);
+        List<Pedido> pedidosDoMes = ((Administrador) usuarioAtivo).getPedidosDoMes();
+
+        double valorTotal = 0;
+
+        for (Pedido p : pedidosDoMes){
+            valorTotal += p.getValorTotal();
+        }
+
+        double valorMedio = valorTotal / pedidosDoMes.size();
 
         Pedido pedidoMaisCaro = ((Administrador) usuarioAtivo).getPedidoMaisCaro();
 
@@ -259,6 +268,12 @@ public class Empresa {
         } else {
             System.out.println("Pedido de maior valor:" + pedidoMaisCaro);
         }
+
+        System.out.println("Pedidos dos ultimos 30 dias: ");
+        System.out.println(pedidosDoMes);
+        System.out.println("Valor medio dos pedidos: " + valorMedio);
+
+
     }
 }
 
