@@ -240,6 +240,7 @@ public class Empresa {
         List<Pedido> reprovados = pedidos.get(Status.APROVADO);
         List<Pedido> total = pedidos.get(Status.ABERTO);
         List<Pedido> pedidosDoMes = ((Administrador) usuarioAtivo).getPedidosDoMes();
+        List<String> valorTotalCadaItem = ((Administrador) usuarioAtivo).getValorCadaItem();
 
         double valorTotal = 0;
 
@@ -273,6 +274,8 @@ public class Empresa {
         System.out.println(pedidosDoMes);
         System.out.println("Valor medio dos pedidos: " + valorMedio);
 
+        System.out.println("Valor total de cada tipo de item: ");
+        System.out.println(valorTotalCadaItem);
 
     }
 }
