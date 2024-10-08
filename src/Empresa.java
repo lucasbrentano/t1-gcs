@@ -242,21 +242,19 @@ public class Empresa {
     public void listarPedidos(){
         String dataInicial;
         String dataFinal;
-        
-        
-        
+    
         System.out.println("Digite a data inicial:(Formato : dia/mes/ano ) ");
         dataInicial = scanner.nextLine();
         System.out.println("Digite a data final: (Formato : dia/mes/ano )");
         dataFinal = scanner.nextLine();
         
-
+        //Definindo a formatação da data
         DateTimeFormatter formatacao = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+        //Convertendo a de String para LocalDate
         LocalDate dataIni = LocalDate.parse(dataInicial, formatacao);
         LocalDate dataFim = LocalDate.parse(dataFinal, formatacao);
 
-        Administrador.listarPedidosEntreDatas(pedidos, dataIni, dataFim);
 
         
     }
