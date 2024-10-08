@@ -151,7 +151,7 @@ public class Empresa {
         Departamento departamentoPedido = null;
         for (Departamento d : departamentos) {
             for (Pedido p : d.getPedidos()) {
-                if (p.getFuncionario().equals(usuarioAtivo) && p.getStatus().equals("ABERTO")) ;
+                if (p.getFuncionario().equals(usuarioAtivo) && p.getStatus().equals(Status.ABERTO)) ;
                 pedidoParaExcluir = p;
                 departamentoPedido = d;
                 break;
