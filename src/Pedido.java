@@ -15,13 +15,13 @@ public class Pedido {
     private final double valorTotal;
     private final List<Item> itens;
 
-    public Pedido (Funcionario funcionario, double valorTotal) {
+    public Pedido (Funcionario funcionario, double valorTotal, List<Item> itens) {
         this.id = id;
         this.funcionario = funcionario;
         this.departamento = funcionario.getDepartamento();
         this.dataAbertura = LocalDate.now();
         this.valorTotal = valorTotal;
-        this.itens = new ArrayList<>();
+        this.itens = itens;
         if (valorTotal > departamento.getLimite()) {
             this.dataFechamento = LocalDate.now();
             this.status = Status.REPROVADO;
