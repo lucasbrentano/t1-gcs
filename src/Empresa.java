@@ -79,13 +79,13 @@ public class Empresa {
                         avaliaPedido();
                         break;
                     case 5:
-                        // TODO listaPedidos();
+                        listarPedidos();
                         break;
                     case 6:
-                        // TODO buscaPedidosPorFuncionario();
+                        buscaPedidosPorFuncionario();
                         break;
                     case 7:
-                        // TODO buscaPedidosPorDescricao();
+                        buscaPedidosPorDescricao();
                         break;
                     case 8:
                         mostraEstatisticas();
@@ -112,6 +112,7 @@ public class Empresa {
             }
         }
     }
+
 
     public void menuAdministrador() {
         System.out.println("╔══════════════════════════════════════════════════════╗");
@@ -234,6 +235,25 @@ public class Empresa {
         List<Pedido> pedidoUsuario = ((Administrador) usuarioAtivo).buscarPedidosPorFuncionario(pedidosDepartamento, usuario);
 
         for (Pedido p : pedidoUsuario) {
+            System.out.println("╔══════════════════════════════════════════════════════╗");
+            System.out.println("║                      PEDIDO                          ║");
+            System.out.println("╚══════════════════════════════════════════════════════╝");
+
+            System.out.println(p);
+        }
+    }
+
+    private void buscaPedidosPorDescricao() {
+
+        Administrador funcionario = (Administrador) usuarioAtivo;
+        List<Pedido> pedidos = funcionario.getDepartamento().getPedidos();
+
+        System.out.println("Insira o item que deseja buscar:");
+        String descricaoItem = scanner.nextLine();
+
+        List<Pedido> pedidosPorItem = funcionario.buscarPedidosPorItem(pedidos, descricaoItem);
+
+        for (Pedido p : pedidosPorItem){
             System.out.println("╔══════════════════════════════════════════════════════╗");
             System.out.println("║                      PEDIDO                          ║");
             System.out.println("╚══════════════════════════════════════════════════════╝");
