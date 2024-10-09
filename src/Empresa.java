@@ -1,13 +1,17 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
+
 
 public class Empresa {
     private final List<Departamento> departamentos;
     private final List<Item> estoque;
     private final List<Usuario> usuarios;
     private final Scanner scanner;
+    private Departamento departamento;
     private Usuario usuarioAtivo;
 
     public Empresa() {
@@ -234,6 +238,29 @@ public class Empresa {
 
             System.out.println(p);
         }
+    }
+
+    public void listarPedidos(){
+        String dataInicial;
+        String dataFinal;
+        List<Pedido> pedidos = departamento.getPedidos();
+    
+        System.out.println("Digite a data inicial:(Formato : dia/mes/ano ) ");
+        dataInicial = scanner.nextLine();
+        System.out.println("Digite a data final: (Formato : dia/mes/ano )");
+        dataFinal = scanner.nextLine();
+        
+        //Definindo a formatação da data
+        DateTimeFormatter formatacao = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        //Convertendo de String para LocalDate
+        LocalDate dataIni = LocalDate.parse(dataInicial, formatacao);
+        LocalDate dataFim = LocalDate.parse(dataFinal, formatacao);
+
+        for(Pedido p : Administrador.listarPedidosEntreDatas(pedidos, dataIni, dataFim)){
+            System.out.println(p);
+        }
+        
     }
 }
 
