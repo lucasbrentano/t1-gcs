@@ -1,6 +1,9 @@
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Map;
 
 public class Administrador extends Funcionario {
 
@@ -8,10 +11,11 @@ public class Administrador extends Funcionario {
         super(nome, departamento);
     }
 
-    public void getPedidos() {
+    public Map<Status, List<Pedido>> getPedidos() {
         List<Pedido> pedidos = super.getDepartamento().getPedidos();
         List<Pedido> aprovados = new ArrayList<>();
         List<Pedido> reprovados = new ArrayList<>();
+        Map<Status, List<Pedido>> result = new HashMap<>();
 
         for (Pedido p : pedidos) {
             if (p.getStatus() == Status.APROVADO) {
@@ -21,13 +25,11 @@ public class Administrador extends Funcionario {
             }
         }
 
-        System.out.println("Aprovados:");
-        System.out.println(aprovados);
-        System.out.println("Aprovados (%):" + aprovados.size() / pedidos.size());
+        result.put(Status.APROVADO, aprovados);
+        result.put(Status.REPROVADO, reprovados);
+        result.put(Status.ABERTO, pedidos);
 
-        System.out.println("Reprovados:");
-        System.out.println(reprovados);
-        System.out.println("Reprovados: " + reprovados.size() / pedidos.size() + "%");
+        return result;
     }
 
     public static List<Pedido> listarPedidosEntreDatas(List<Pedido> listaPedidos, LocalDate dataInicio, LocalDate dataFim) {
@@ -67,25 +69,26 @@ public class Administrador extends Funcionario {
         return pedido.toString();
     }
 
-    public void getPedidosDoMes() {
-        List<Pedido> result = new ArrayList<>();
-        double valorMedio = 0;
+    public List<Pedido> getPedidosDoMes() {
+        List<Pedido> pedidosDoMes = new ArrayList<>();
+        double valorTotal = 0;
 
         for (Pedido p : getDepartamento().getPedidos()) {
             if (p.getDataAbertura().isBefore(LocalDate.now().minusDays(30))) {
-                result.add(p);
+                pedidosDoMes.add(p);
             }
         }
 
-        for (Pedido p : result) {
-            valorMedio += p.getValorTotal();
-        }
+        return pedidosDoMes;
+    }
 
+    public List<String> getValorCadaItem() {
+
+        List<Pedido> pedidosDoMes = getPedidosDoMes();
         List<Item> itens = new ArrayList<>();
-        List<String> valores = new ArrayList<>();
+        List<String> valorCadaItem = new ArrayList<>();
 
-
-        for (Pedido p : result) {
+        for (Pedido p : pedidosDoMes) {
             for (Item i : p.getItens()) {
                 if (!itens.contains(i)) {
                     itens.add(i);
@@ -104,31 +107,29 @@ public class Administrador extends Funcionario {
                 String itemValue = "Item: %s , Valor: %d ";
                 String itemValueFormat = String.format(itemValue, item.getDescricao(), valor);
 
-                valores.add(itemValueFormat);
+                valorCadaItem.add(itemValueFormat);
             }
         }
 
-        System.out.println("Pedidos dos ultimos 30 dias: ");
-        System.out.println(result);
-        System.out.println("Valor medio dos pedidos: " + valorMedio / result.size());
-        System.out.println("Valor de cada item: " + valores);
+
+        return valorCadaItem;
     }
 
-    public void getPedidoMaisCaro(){
+    public Pedido getPedidoMaisCaro() {
         List<Pedido> pedidos = super.getDepartamento().getPedidos();
         Pedido pedidoMaisCaro = pedidos.getFirst();
 
-            for (Pedido p : pedidos) {
-                if (p.getStatus() == Status.ABERTO &&
-                        p.getValorTotal() > pedidoMaisCaro.getValorTotal()) {
-                    pedidoMaisCaro = p;
-                }
+        for (Pedido p : pedidos) {
+            if (p.getStatus() == Status.ABERTO &&
+                    p.getValorTotal() > pedidoMaisCaro.getValorTotal()) {
+                pedidoMaisCaro = p;
             }
+        }
 
         if (pedidoMaisCaro.getStatus() == Status.ABERTO) {
-            System.out.println("Pedido mais caro aberto: " + pedidoMaisCaro);
+            return pedidoMaisCaro;
         } else {
-            System.out.println("Nenhum pedido aberto.");
+            return null;
         }
     }
 }

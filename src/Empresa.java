@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
+import java.util.*;
 
 public class Empresa {
     private final List<Departamento> departamentos;
@@ -49,6 +50,7 @@ public class Empresa {
             // d.addFuncionario(f);
         }
     }
+
     public void executa() {
         this.initDepartamentosIniciais();
 
@@ -56,7 +58,7 @@ public class Empresa {
             int opcao = scanner.nextInt();
             scanner.nextLine();
 
-            if (usuarioAtivo == null){
+            if (usuarioAtivo == null) {
                 trocaUsuario();
             }
 
@@ -86,7 +88,7 @@ public class Empresa {
                         // TODO buscaPedidosPorDescricao();
                         break;
                     case 8:
-                        // TODO mostraEstatisticas();
+                        mostraEstatisticas();
                         break;
                     default:
                         break;
@@ -111,7 +113,7 @@ public class Empresa {
         }
     }
 
-    public void menuAdministrador(){
+    public void menuAdministrador() {
         System.out.println("╔══════════════════════════════════════════════════════╗");
         System.out.println("║                     MENU PRINCIPAL                   ║");
         System.out.println("╠══════════════════════════════════════════════════════╣");
@@ -126,7 +128,7 @@ public class Empresa {
         System.out.print("Escolha uma opção: ");
     }
 
-    public void menuFuncionario(){
+    public void menuFuncionario() {
         System.out.println("╔══════════════════════════════════════════════════════╗");
         System.out.println("║                     MENU PRINCIPAL                   ║");
         System.out.println("╠══════════════════════════════════════════════════════╣");
@@ -137,12 +139,12 @@ public class Empresa {
         System.out.print("Escolha uma opção: ");
     }
 
-    private void trocaUsuario() { 
+    private void trocaUsuario() {
         System.out.println("Digite o nome do usuario");
         int codigoUsuario = scanner.nextInt();
 
-        for(Usuario u : usuarios){
-            if(u.getId() == codigoUsuario){
+        for (Usuario u : usuarios) {
+            if (u.getId() == codigoUsuario) {
                 usuarioAtivo = u;
                 return;
             }
@@ -177,12 +179,12 @@ public class Empresa {
         int codigoPedido = scanner.nextInt();
         scanner.nextLine();
         for (Departamento d : departamentos) {
-            if (((Funcionario)usuarioAtivo).getDepartamento().equals(d)) {
+            if (((Funcionario) usuarioAtivo).getDepartamento().equals(d)) {
                 for (Pedido p : d.getPedidos()) {
                     if (p.getId() == codigoPedido && p.getStatus().equals(Status.ABERTO)) {
                         System.out.println("Pedido " + p.getId() + " encontrado. \n" +
-                                            p.toString() +
-                                            "\nSelecione uma opção: ");
+                                p.toString() +
+                                "\nSelecione uma opção: ");
                         System.out.println("1 - Aprovar pedido.");
                         System.out.println("2 - Reprovar pedido.");
                         System.out.println("3 - Sair");
@@ -210,28 +212,28 @@ public class Empresa {
         }
     }
 
-    private void buscaPedidosPorFuncionario(){
+    private void buscaPedidosPorFuncionario() {
         System.out.println("Digite o codigo do usuario");
         int codigoUsuario = scanner.nextInt();
         scanner.nextLine();
         Funcionario usuario = null;
-        for(Usuario u : usuarios){
-            if(u.getId() == codigoUsuario){
+        for (Usuario u : usuarios) {
+            if (u.getId() == codigoUsuario) {
                 usuario = (Funcionario) u;
                 break;
             }
         }
 
-        if(usuario == null){
+        if (usuario == null) {
             System.out.println("Usuario não encontrado");
             return;
         }
 
         List<Pedido> pedidosDepartamento = usuario.getDepartamento().getPedidos();
 
-        List<Pedido> pedidoUsuario = ((Administrador) usuarioAtivo).buscarPedidosPorFuncionario(pedidosDepartamento,usuario);
+        List<Pedido> pedidoUsuario = ((Administrador) usuarioAtivo).buscarPedidosPorFuncionario(pedidosDepartamento, usuario);
 
-        for(Pedido p : pedidoUsuario){
+        for (Pedido p : pedidoUsuario) {
             System.out.println("╔══════════════════════════════════════════════════════╗");
             System.out.println("║                      PEDIDO                          ║");
             System.out.println("╚══════════════════════════════════════════════════════╝");
@@ -240,16 +242,16 @@ public class Empresa {
         }
     }
 
-    public void listarPedidos(){
+    public void listarPedidos() {
         String dataInicial;
         String dataFinal;
         List<Pedido> pedidos = departamento.getPedidos();
-    
+
         System.out.println("Digite a data inicial:(Formato : dia/mes/ano ) ");
         dataInicial = scanner.nextLine();
         System.out.println("Digite a data final: (Formato : dia/mes/ano )");
         dataFinal = scanner.nextLine();
-        
+
         //Definindo a formatação da data
         DateTimeFormatter formatacao = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -257,12 +259,57 @@ public class Empresa {
         LocalDate dataIni = LocalDate.parse(dataInicial, formatacao);
         LocalDate dataFim = LocalDate.parse(dataFinal, formatacao);
 
-        for(Pedido p : Administrador.listarPedidosEntreDatas(pedidos, dataIni, dataFim)){
+        for (Pedido p : Administrador.listarPedidosEntreDatas(pedidos, dataIni, dataFim)) {
             System.out.println(p);
         }
-        
     }
-}
+        private void mostraEstatisticas () {
+
+            Map<Status, List<Pedido>> pedidos = ((Administrador) usuarioAtivo).getPedidos();
+            List<Pedido> aprovados = pedidos.get(Status.APROVADO);
+            List<Pedido> reprovados = pedidos.get(Status.APROVADO);
+            List<Pedido> total = pedidos.get(Status.ABERTO);
+            List<Pedido> pedidosDoMes = ((Administrador) usuarioAtivo).getPedidosDoMes();
+            List<String> valorTotalCadaItem = ((Administrador) usuarioAtivo).getValorCadaItem();
+
+            double valorTotal = 0;
+
+            for (Pedido p : pedidosDoMes) {
+                valorTotal += p.getValorTotal();
+            }
+
+            double valorMedio = valorTotal / pedidosDoMes.size();
+
+            Pedido pedidoMaisCaro = ((Administrador) usuarioAtivo).getPedidoMaisCaro();
+
+            System.out.println("╔══════════════════════════════════════════════════════╗");
+            System.out.println("║                     ESTATISTICAS                     ║");
+            System.out.println("╚══════════════════════════════════════════════════════╝");
+
+            System.out.println("Pedidos aprovados:");
+            System.out.println(aprovados);
+            System.out.println("Aprovados (%):" + aprovados.size() / total.size() + "%");
+
+            System.out.println("Pedidos reprovados:");
+            System.out.println(reprovados);
+            System.out.println("Reprovados: " + reprovados.size() / total.size() + "%");
+
+            if (pedidoMaisCaro == null) {
+                System.out.println("Não há pedido");
+            } else {
+                System.out.println("Pedido de maior valor:" + pedidoMaisCaro);
+            }
+
+            System.out.println("Pedidos dos ultimos 30 dias: ");
+            System.out.println(pedidosDoMes);
+            System.out.println("Valor medio dos pedidos: " + valorMedio);
+
+            System.out.println("Valor total de cada tipo de item: ");
+            System.out.println(valorTotalCadaItem);
+
+        }
+    }
+
 
 //Fazer com que seja possível definir o usuário ativo.
 //Pedido pode ser excluido somente pelo usuário que o criou (somente quando o status estiver aberto)
