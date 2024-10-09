@@ -72,7 +72,6 @@ public class Empresa {
                         // TODO registraPedido();
                         break;
                     case 3:
-                        // TODO excluiPedido();
                         excluiPedido();
                         break;
                     case 4:
@@ -103,7 +102,6 @@ public class Empresa {
                         // TODO registraPedido();
                         break;
                     case 3:
-                        // TODO excluiPedido();
                         excluiPedido();
                         break;
                     default:
@@ -153,25 +151,35 @@ public class Empresa {
     }
 
     private void excluiPedido() {
-        Pedido pedidoParaExcluir = null;
-        Departamento departamentoPedido = null;
-        for (Departamento d : departamentos) {
-            for (Pedido p : d.getPedidos()) {
-                if (p.getFuncionario().equals(usuarioAtivo) && p.getStatus().equals(Status.ABERTO)) ;
-                pedidoParaExcluir = p;
-                departamentoPedido = d;
-                break;
-            }
-
-        }
-
-        if (pedidoParaExcluir != null && departamentoPedido != null) {
-            departamentoPedido.getPedidos().remove(pedidoParaExcluir);
-            System.out.println("Pedido excluido com sucesso!");
+        Administrador usuario = ((Administrador)usuarioAtivo);
+        List<Pedido> pedidos = usuario.getDepartamento().getPedidos();
+        Pedido pedidoParaExcluir;
+        int id = 0;
+        while(true){
+        System.out.println("Digite o ID do pedido que você quer excluir");
+        id = scanner.nextInt();
+        if(id < 0 ){
+            System.out.println("Número digitado invalido!");
 
         } else {
-            System.out.println("Pedido não encontrado ou não pode ser excluído.");
+            break;
         }
+
+        }
+
+        for(Pedido p : pedidos){
+            if(p.getId() == id && p.getStatus().equals(Status.ABERTO) && p.getFuncionario().equals(usuario)){
+                pedidoParaExcluir = p;
+                usuario.getPedidos().remove(pedidoParaExcluir);
+                System.out.println("Pedido Excluído com sucesso!");
+
+            } else {
+                System.out.println("Pedido não encontrado ou não pode ser excluído!");
+            }
+        }
+
+        
+
     }
 
     private void avaliaPedido() {
