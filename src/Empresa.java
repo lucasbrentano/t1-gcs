@@ -1,8 +1,4 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
 import java.util.*;
@@ -27,33 +23,51 @@ public class Empresa {
 
         for (String nome : nomesDepartametos) {
             Departamento d = new Departamento(nome, 50000);
-            this.addFuncionarioADepartamento(d);
             this.departamentos.add(d);
         }
     }
 
-    private void addFuncionarioADepartamento(Departamento d) {
-        //Adicionar n funcionarios em cada departamento (15 min.)
-        Random geraNumeros = new Random();
-        String[] nomesPossiveis = {
-                "Ana", "Carlos", "Fernanda", "João", "Mariana", "Ricardo", "Sofia", "Lucas", "Bruno", "Juliana",
-                "Gabriel", "Laura", "Mateus", "Isabela", "Pedro", "Clara", "Felipe", "Renata", "Vinícius", "Tatiane",
-                "Roberto", "Amanda", "Thiago", "Camila", "Júlio", "Rafael", "Bianca", "André", "Lúcia", "Gustavo",
-                "Julio", "Luciana", "Érica", "Murilo", "Natália", "Alberto", "Priscila", "Leonardo", "Nathalia", "Cíntia"
-        };
+    private void addAdministradorDepertamento(){
+        String[] nomeAdministradores = {"Brain","Bob","Milton","Maicon","Rubens"};
 
-        int countNames = nomesPossiveis.length;
-        for (int i = 0; i < 3; i++) {
-            int indexRandom = geraNumeros.nextInt(countNames);
-            String nomeFuncionario = nomesPossiveis[indexRandom];
-            Funcionario f = new Funcionario(nomeFuncionario, d);
-            // d.addFuncionario(f);
+        for(int i = 0 ; i < departamentos.size() ; i++){
+            Departamento d = departamentos.get(i);
+            Administrador administrador = new Administrador(nomeAdministradores[i], d);
+            d.cadastraFuncionario(administrador);
         }
     }
 
-    public void executa() {
-        this.initDepartamentosIniciais();
+    private void addFuncionariosADepartamentos() {
+        //Adicionar n funcionarios em cada departamento (15 min.)
+        Random geraNumeros = new Random();
+        String[] nomesPossiveis = {
+            "Ana", "Carlos", "Fernanda", "João", "Mariana", "Ricardo", "Sofia", "Lucas", "Bruno", "Juliana",
+            "Gabriel", "Laura", "Mateus", "Isabela", "Pedro", "Clara", "Felipe", "Renata", "Vinícius", "Tatiane",
+            "Roberto", "Amanda", "Thiago", "Camila", "Júlio", "Rafael", "Bianca", "André", "Lúcia", "Gustavo",
+            "Julio", "Luciana", "Érica", "Murilo", "Natália", "Alberto", "Priscila", "Leonardo", "Nathalia", "Cíntia"
+        };
 
+        int countNames = nomesPossiveis.length;
+
+        for(Departamento d: departamentos){
+            for (int i = 0; i < 2; i++) {
+                int indexRandom = geraNumeros.nextInt(countNames);
+                String nomeFuncionario = nomesPossiveis[indexRandom];
+                Funcionario f = new Funcionario(nomeFuncionario, d);
+                d.cadastraFuncionario(f);
+            }
+        }
+
+    }
+
+    private void initDados(){
+        initDepartamentosIniciais();
+        addAdministradorDepertamento();
+        addFuncionariosADepartamentos();
+    }
+
+    public void executa() {
+        initDados();
         while (true) {
             int opcao = scanner.nextInt();
             scanner.nextLine();
