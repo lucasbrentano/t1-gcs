@@ -150,7 +150,7 @@ public class Empresa {
     private void excluiPedido() {
         Funcionario funcionario = (Funcionario)usuarioAtivo;
         List<Pedido> pedidos = funcionario.getDepartamento().getPedidos();
-        Pedido pedidoParaExcluir;
+        Pedido pedidoExcluido;
         int id = 0;
         while(true){
         System.out.println("Digite o ID do pedido que você quer excluir");
@@ -166,8 +166,8 @@ public class Empresa {
 
         for(Pedido p : pedidos){
             if(p.getId() == id && p.getStatus().equals(Status.ABERTO) && p.getFuncionario().equals(funcionario)){
-                pedidoParaExcluir = p;
-                funcionario.getDepartamento().getPedidos().remove(pedidoParaExcluir);
+                pedidoExcluido = p;
+                funcionario.getDepartamento().getPedidos().remove(pedidoExcluido);
                 System.out.println("Pedido Excluído com sucesso!");
 
             } else {
