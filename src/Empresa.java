@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import java.util.*;
 
 public class Empresa {
@@ -28,12 +27,13 @@ public class Empresa {
     }
 
     private void addAdministradorDepertamento(){
-        String[] nomeAdministradores = {"Brain","Bob","Milton","Maicon","Rubens"};
+        String[] nomeAdministradores = {"Brian","Bob","Milton","Maicon","Rubens"};
 
         for(int i = 0 ; i < departamentos.size() ; i++){
             Departamento d = departamentos.get(i);
             Administrador administrador = new Administrador(nomeAdministradores[i], d);
             d.cadastraFuncionario(administrador);
+            usuarios.add(administrador);
         }
     }
 
@@ -55,6 +55,8 @@ public class Empresa {
                 String nomeFuncionario = nomesPossiveis[indexRandom];
                 Funcionario f = new Funcionario(nomeFuncionario, d);
                 d.cadastraFuncionario(f);
+                usuarios.add(f);
+
             }
         }
 
@@ -68,13 +70,27 @@ public class Empresa {
 
     public void executa() {
         initDados();
+ 
+        boolean trocaDeUsuario = false;
+
+        while(!trocaDeUsuario){
+            trocaDeUsuario = trocaUsuario();
+            if(trocaDeUsuario){
+                System.out.println("╔══════════════════════════════════════════════╗");
+                System.out.println("        BEM VINDO " + this.usuarioAtivo.getNome() + " :)");
+                System.out.println("╚══════════════════════════════════════════════╝");
+                break;
+            }else{
+                System.out.println("╔══════════════════════════════════════════════════════╗");
+                System.out.println("║                     FALHA AO LOGAR                   ║");
+                System.out.println("╚══════════════════════════════════════════════════════╝");
+            }
+        }
+
         while (true) {
+
             int opcao = scanner.nextInt();
             scanner.nextLine();
-
-            if (usuarioAtivo == null) {
-                trocaUsuario();
-            }
 
             if (usuarioAtivo instanceof Administrador) {
                 menuAdministrador();
@@ -151,16 +167,18 @@ public class Empresa {
         System.out.print("Escolha uma opção: ");
     }
 
-    private void trocaUsuario() {
-        System.out.println("Digite o nome do usuario");
+    private boolean trocaUsuario() {
+        System.out.println("Digite o Codigo do usuario");
         int codigoUsuario = scanner.nextInt();
 
         for (Usuario u : usuarios) {
             if (u.getId() == codigoUsuario) {
                 usuarioAtivo = u;
-                return;
+                return true;
             }
         }
+
+        return false;
 
     }
 
