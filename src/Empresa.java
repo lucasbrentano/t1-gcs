@@ -24,12 +24,22 @@ public class Empresa {
 
         for (String nome : nomesDepartametos) {
             Departamento d = new Departamento(nome, 50000);
-            this.addFuncionarioADepartamento(d);
             this.departamentos.add(d);
         }
     }
 
-    private void addFuncionarioADepartamento(Departamento d) {
+    private void addAdministradorDepertamento() {
+        String[] nomeAdministradores = {"Brain", "Bob", "Milton", "Maicon", "Rubens"};
+
+        for (int i = 0; i < departamentos.size(); i++) {
+            Departamento d = departamentos.get(i);
+            Administrador administrador = new Administrador(nomeAdministradores[i], d);
+            d.cadastraFuncionario(administrador);
+            usuarios.add(administrador);
+        }
+    }
+
+    private void addFuncionariosADepartamentos() {
         //Adicionar n funcionarios em cada departamento (15 min.)
         Random geraNumeros = new Random();
         String[] nomesPossiveis = {
@@ -40,20 +50,27 @@ public class Empresa {
         };
 
         int countNames = nomesPossiveis.length;
-        for (int i = 0; i < 3; i++) {
-            int indexRandom = geraNumeros.nextInt(countNames);
-            String nomeFuncionario = nomesPossiveis[indexRandom];
-            Funcionario f = new Funcionario(nomeFuncionario, d);
-            d.cadastraFuncionario(f);
-            usuarios.add(f);
+
+        for (Departamento d : departamentos) {
+            for (int i = 0; i < 2; i++) {
+                int indexRandom = geraNumeros.nextInt(countNames);
+                String nomeFuncionario = nomesPossiveis[indexRandom];
+                Funcionario f = new Funcionario(nomeFuncionario, d);
+                d.cadastraFuncionario(f);
+                usuarios.add(f);
+            }
         }
     }
 
-    public void executa() {
+    private void initDados() {
         initDepartamentosIniciais();
-        for (Departamento d : departamentos) {
-            addFuncionarioADepartamento(d);
-        }
+        addAdministradorDepertamento();
+        addFuncionariosADepartamentos();
+    }
+
+    public void executa() {
+        initDados();
+        System.out.println("ID Admin: 1-5 \nID Funcionarios: 6-15");
 
         if (usuarioAtivo == null) {
             trocaUsuario();
@@ -122,7 +139,7 @@ public class Empresa {
         List<Item> itens = new ArrayList<>();
         double valorTotal = 0.0;
 
-        while (!scanner.nextLine().equals("-1")) {
+        while (!"-1".equals(scanner.nextLine())) {
             System.out.println("Insira um item no pedido");
             System.out.println("Descricao do item (nome):");
             String descricao = scanner.nextLine();
@@ -327,46 +344,52 @@ public class Empresa {
     private void mostraEstatisticas() {
 
         Map<Status, List<Pedido>> pedidos = ((Administrador) usuarioAtivo).getPedidos();
-        List<Pedido> aprovados = pedidos.get(Status.APROVADO);
-        List<Pedido> reprovados = pedidos.get(Status.APROVADO);
-        List<Pedido> total = pedidos.get(Status.ABERTO);
-        List<Pedido> pedidosDoMes = ((Administrador) usuarioAtivo).getPedidosDoMes();
-        List<String> valorTotalCadaItem = ((Administrador) usuarioAtivo).getValorCadaItem();
 
-        double valorTotal = 0;
-
-        for (Pedido p : pedidosDoMes) {
-            valorTotal += p.getValorTotal();
+        if (pedidos.isEmpty()) {
+            System.out.println("Nao ha pedidos no departamento");
+            return;
         }
 
-        double valorMedio = valorTotal / pedidosDoMes.size();
+            List<Pedido> aprovados = pedidos.get(Status.APROVADO);
+            List<Pedido> reprovados = pedidos.get(Status.APROVADO);
+            List<Pedido> total = pedidos.get(Status.ABERTO);
+            List<Pedido> pedidosDoMes = ((Administrador) usuarioAtivo).getPedidosDoMes();
+            List<String> valorTotalCadaItem = ((Administrador) usuarioAtivo).getValorCadaItem();
 
-        Pedido pedidoMaisCaro = ((Administrador) usuarioAtivo).getPedidoMaisCaro();
+            double valorTotal = 0;
 
-        System.out.println("╔══════════════════════════════════════════════════════╗");
-        System.out.println("║                     ESTATISTICAS                     ║");
-        System.out.println("╚══════════════════════════════════════════════════════╝");
+            for (Pedido p : pedidosDoMes) {
+                valorTotal += p.getValorTotal();
+            }
 
-        System.out.println("Pedidos aprovados:");
-        System.out.println(aprovados);
-        System.out.println("Aprovados (%):" + aprovados.size() / total.size() + "%");
+            double valorMedio = valorTotal / pedidosDoMes.size();
 
-        System.out.println("Pedidos reprovados:");
-        System.out.println(reprovados);
-        System.out.println("Reprovados: " + reprovados.size() / total.size() + "%");
+            Pedido pedidoMaisCaro = ((Administrador) usuarioAtivo).getPedidoMaisCaro();
 
-        if (pedidoMaisCaro == null) {
-            System.out.println("Não há pedido");
-        } else {
-            System.out.println("Pedido de maior valor:" + pedidoMaisCaro);
-        }
+            System.out.println("╔══════════════════════════════════════════════════════╗");
+            System.out.println("║                     ESTATISTICAS                     ║");
+            System.out.println("╚══════════════════════════════════════════════════════╝");
 
-        System.out.println("Pedidos dos ultimos 30 dias: ");
-        System.out.println(pedidosDoMes);
-        System.out.println("Valor medio dos pedidos: " + valorMedio);
+            System.out.println("Pedidos aprovados:");
+            System.out.println(aprovados);
+            System.out.println("Aprovados (%):" + aprovados.size() / total.size() + "%");
 
-        System.out.println("Valor total de cada tipo de item: ");
-        System.out.println(valorTotalCadaItem);
+            System.out.println("Pedidos reprovados:");
+            System.out.println(reprovados);
+            System.out.println("Reprovados: " + reprovados.size() / total.size() + "%");
+
+            if (pedidoMaisCaro == null) {
+                System.out.println("Não há pedido");
+            } else {
+                System.out.println("Pedido de maior valor:" + pedidoMaisCaro);
+            }
+
+            System.out.println("Pedidos dos ultimos 30 dias: ");
+            System.out.println(pedidosDoMes);
+            System.out.println("Valor medio dos pedidos: " + valorMedio);
+
+            System.out.println("Valor total de cada tipo de item: ");
+            System.out.println(valorTotalCadaItem);
 
     }
 }

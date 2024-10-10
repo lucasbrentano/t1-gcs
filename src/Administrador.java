@@ -25,9 +25,11 @@ public class Administrador extends Funcionario {
             }
         }
 
-        result.put(Status.APROVADO, aprovados);
-        result.put(Status.REPROVADO, reprovados);
-        result.put(Status.ABERTO, pedidos);
+        if (!aprovados.isEmpty() && !reprovados.isEmpty()) {
+            result.put(Status.APROVADO, aprovados);
+            result.put(Status.REPROVADO, reprovados);
+            result.put(Status.ABERTO, pedidos);
+        }
 
         return result;
     }
