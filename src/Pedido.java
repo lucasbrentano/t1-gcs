@@ -12,16 +12,16 @@ public class Pedido {
     private final LocalDate dataAbertura;
     private LocalDate dataFechamento;
     private Status status;
-    private final double valorTotal;
+    private double valorTotal;
     private final List<Item> itens;
     private static int count= 0;
 
-    public Pedido (Funcionario funcionario, double valorTotal) {
+    public Pedido (Funcionario funcionario) {
         this.id = count++;
         this.funcionario = funcionario;
         this.departamento = funcionario.getDepartamento();
         this.dataAbertura = LocalDate.now();
-        this.valorTotal = valorTotal;
+        this.valorTotal = 0;
         this.itens = new ArrayList<>();
         if (valorTotal > departamento.getLimite()) {
             this.dataFechamento = LocalDate.now();
@@ -33,8 +33,10 @@ public class Pedido {
 
     public void addItem(Item item, int quantidade){
         item.setValorTotal(quantidade);
-        itens.add(item);
-
+        this.valorTotal += item.getValorTotal();
+        for (int i=0; i < quantidade; i++){
+            itens.add(item);
+        }
     }
 
     public int getId() {
