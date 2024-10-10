@@ -246,6 +246,8 @@ public class Empresa {
                                 p.setStatus(Status.REPROVADO);
                                 System.out.println("Pedido reprovado com sucesso!");
                                 break;
+                            case 3:
+                                return;
                             default:
                                 break;
                         }
