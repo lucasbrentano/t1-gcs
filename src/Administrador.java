@@ -35,7 +35,7 @@ public class Administrador extends Funcionario {
     public static List<Pedido> listarPedidosEntreDatas(List<Pedido> listaPedidos, LocalDate dataInicio, LocalDate dataFim) {
         List<Pedido> pedidosFiltrados = new ArrayList<>();
         for (Pedido pedido : listaPedidos) {
-            if (!pedido.getDataAbertura().isBefore(dataInicio) && !pedido.getDataFechamento().isAfter(dataFim)) {
+            if (!pedido.getDataAbertura().isBefore(dataInicio) && !pedido.getDataAbertura().isAfter(dataFim)) {
                 pedidosFiltrados.add(pedido);
             }
         }
