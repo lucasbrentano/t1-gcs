@@ -229,6 +229,7 @@ public class Empresa {
         scanner.nextLine();
         for (Departamento d : departamentos) {
             if (((Funcionario) usuarioAtivo).getDepartamento().equals(d)) {
+                boolean pedidoEncontrado = false;
                 for (Pedido p : d.getPedidos()) {
                     if (p.getId() == codigoPedido && p.getStatus().equals(Status.ABERTO)) {
                         System.out.println("Pedido " + p.getId() + " encontrado. \n" +
@@ -253,11 +254,16 @@ public class Empresa {
                             default:
                                 break;
                         }
+                        pedidoEncontrado = true;
+                        break;
                     } else if (p.getId() == codigoPedido && !p.getStatus().equals(Status.ABERTO)) {
                         System.out.println("Pedido " + p.getId() + " encerrado.");
-                    } else {
-                        System.out.println("Pedido não encontrado!");
+                        pedidoEncontrado = true;
+                        break;
                     }
+                }
+                if (!pedidoEncontrado) {
+                    System.out.println("Pedido não encontrado!");
                 }
             }
         }
