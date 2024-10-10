@@ -1,8 +1,4 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
 import java.util.*;
@@ -150,9 +146,10 @@ public class Empresa {
 
     }
 
+    
     private void excluiPedido() {
-        Administrador usuario = ((Administrador)usuarioAtivo);
-        List<Pedido> pedidos = usuario.getDepartamento().getPedidos();
+        Funcionario funcionario = (Funcionario)usuarioAtivo;
+        List<Pedido> pedidos = funcionario.getDepartamento().getPedidos();
         Pedido pedidoParaExcluir;
         int id = 0;
         while(true){
@@ -168,9 +165,9 @@ public class Empresa {
         }
 
         for(Pedido p : pedidos){
-            if(p.getId() == id && p.getStatus().equals(Status.ABERTO) && p.getFuncionario().equals(usuario)){
+            if(p.getId() == id && p.getStatus().equals(Status.ABERTO) && p.getFuncionario().equals(funcionario)){
                 pedidoParaExcluir = p;
-                usuario.getPedidos().remove(pedidoParaExcluir);
+                funcionario.getDepartamento().getPedidos().remove(pedidoParaExcluir);
                 System.out.println("Pedido Excluído com sucesso!");
 
             } else {
@@ -178,9 +175,8 @@ public class Empresa {
             }
         }
 
-        
-
     }
+
 
     private void avaliaPedido() {
         System.out.println("Informe a ID do pedido: ");
