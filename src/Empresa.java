@@ -75,25 +75,14 @@ public class Empresa {
 
         while(!trocaDeUsuario){
             trocaDeUsuario = trocaUsuario();
-            if(trocaDeUsuario){
-                System.out.println("╔══════════════════════════════════════════════╗");
-                System.out.println("        BEM VINDO " + this.usuarioAtivo.getNome() + " :)");
-                System.out.println("╚══════════════════════════════════════════════╝");
-                break;
-            }else{
-                System.out.println("╔══════════════════════════════════════════════════════╗");
-                System.out.println("║                     FALHA AO LOGAR                   ║");
-                System.out.println("╚══════════════════════════════════════════════════════╝");
-            }
         }
 
         while (true) {
-
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
-
+            int opcao = 0;
             if (usuarioAtivo instanceof Administrador) {
                 menuAdministrador();
+                opcao = scanner.nextInt();
+                scanner.nextLine();
                 switch (opcao) {
                     case 1:
                         trocaUsuario();
@@ -124,6 +113,7 @@ public class Empresa {
                 }
             } else {
                 menuFuncionario();
+                opcao = scanner.nextInt();
                 switch (opcao) {
                     case 1:
                         trocaUsuario();
@@ -153,7 +143,9 @@ public class Empresa {
         System.out.println("║ 7 - Busca Pedidos Por Descricao                      ║");
         System.out.println("║ 8 - Mostra Estatisticas                              ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
-        System.out.print("Escolha uma opção: ");
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                   Digite uma opção                   ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
     }
 
     public void menuFuncionario() {
@@ -164,7 +156,9 @@ public class Empresa {
         System.out.println("║ 2 - Registrar Pedido                                 ║");
         System.out.println("║ 3 - Exclui Pedido                                    ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
-        System.out.print("Escolha uma opção: ");
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                   Digite uma opção                   ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
     }
 
     private boolean trocaUsuario() {
@@ -174,10 +168,17 @@ public class Empresa {
         for (Usuario u : usuarios) {
             if (u.getId() == codigoUsuario) {
                 usuarioAtivo = u;
+                System.out.println("╔══════════════════════════════════════════════════════╗");
+                System.out.println("        BEM VINDO " + this.usuarioAtivo.getNome() + " :)");
+                System.out.println("╚══════════════════════════════════════════════════════╝");
                 return true;
             }
         }
-
+    
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                     FALHA AO LOGAR                   ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
+        
         return false;
 
     }
