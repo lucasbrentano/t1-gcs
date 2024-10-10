@@ -81,7 +81,8 @@ public class Pedido {
 
     public String toString() {
         String dataAberturaString = dataAbertura.format(formatter);
-        String dados = "Funcionario: " + getFuncionario().getNome() + "\n"
+        String dados = "ID: " + this.getId() + "\n"
+                + "Funcionario: " + getFuncionario().getNome() + "\n"
                 + "Departamento: " + departamento.getNome() + "\n"
                 + "Data de Abertura: " + dataAberturaString + "\n"
                 + "Status: " + status + "\n"
