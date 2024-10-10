@@ -9,15 +9,12 @@ import java.util.*;
 
 public class Empresa {
     private final List<Departamento> departamentos;
-    private final List<Item> estoque;
     private final List<Usuario> usuarios;
     private final Scanner scanner;
-    private Departamento departamento;
     private Usuario usuarioAtivo = null;
 
     public Empresa() {
         this.departamentos = new ArrayList<>();
-        this.estoque = new ArrayList<>();
         this.usuarios = new ArrayList<>();
         this.scanner = new Scanner(System.in);
     }
@@ -66,8 +63,8 @@ public class Empresa {
             if (usuarioAtivo instanceof Administrador) {
                 menuAdministrador();
 
-                int opcao = scanner.nextInt();
                 scanner.nextLine();
+                int opcao = scanner.nextInt();
 
                 switch (opcao) {
                     case 1:
@@ -100,8 +97,8 @@ public class Empresa {
             } else {
                 menuFuncionario();
 
-                int opcao = scanner.nextInt();
                 scanner.nextLine();
+                int opcao = scanner.nextInt();
 
                 switch (opcao) {
                     case 1:
@@ -143,12 +140,14 @@ public class Empresa {
                 valorTotal += item.getValorUnitario();
             }
 
+            System.out.println("Deseja continuar? Se sim, digite qualquer coisa. Se nao, digite -1");
         }
+
 
         Pedido pedido = new Pedido(funcionario, valorTotal, itens);
 
-
         funcionario.getDepartamento().getPedidos().add(pedido);
+        System.out.println("Pedido registrado em: " + funcionario.getDepartamento().getNome());
 
     }
 
@@ -198,20 +197,21 @@ public class Empresa {
         Departamento departamentoPedido = null;
         for (Departamento d : departamentos) {
             for (Pedido p : d.getPedidos()) {
-                if (p.getFuncionario().equals(usuarioAtivo) && p.getStatus().equals(Status.ABERTO)) ;
-                pedidoParaExcluir = p;
-                departamentoPedido = d;
-                break;
+                if (p.getFuncionario().equals(usuarioAtivo) && p.getStatus().equals(Status.ABERTO)) {
+                    pedidoParaExcluir = p;
+                    departamentoPedido = d;
+                    break;
+                }
+
             }
 
-        }
+            if (pedidoParaExcluir != null && departamentoPedido != null) {
+                departamentoPedido.getPedidos().remove(pedidoParaExcluir);
+                System.out.println("Pedido excluido com sucesso!");
 
-        if (pedidoParaExcluir != null && departamentoPedido != null) {
-            departamentoPedido.getPedidos().remove(pedidoParaExcluir);
-            System.out.println("Pedido excluido com sucesso!");
-
-        } else {
-            System.out.println("Pedido não encontrado ou não pode ser excluído.");
+            } else {
+                System.out.println("Pedido não encontrado ou não pode ser excluído.");
+            }
         }
     }
 
@@ -305,7 +305,7 @@ public class Empresa {
     public void listarPedidos() {
         String dataInicial;
         String dataFinal;
-        List<Pedido> pedidos = departamento.getPedidos();
+        List<Pedido> pedidos = ((Administrador) usuarioAtivo).getDepartamento().getPedidos();
 
         System.out.println("Digite a data inicial:(Formato : dia/mes/ano ) ");
         dataInicial = scanner.nextLine();
@@ -370,7 +370,6 @@ public class Empresa {
 
     }
 }
-
 
 //Fazer com que seja possível definir o usuário ativo.
 //Pedido pode ser excluido somente pelo usuário que o criou (somente quando o status estiver aberto)
