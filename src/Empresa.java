@@ -59,13 +59,22 @@ public class Empresa {
 
             }
         }
+    }
 
+    private void inicializaPedidos() {
+        for (Departamento d : departamentos) {
+            for (Funcionario f : d.getFuncionarios()) {
+                Pedido pedido = new Pedido(f, new Random().nextDouble(d.getLimite()));
+                d.getPedidos().add(pedido);
+            }
+        }
     }
 
     private void initDados(){
         initDepartamentosIniciais();
         addAdministradorDepertamento();
         addFuncionariosADepartamentos();
+        inicializaPedidos();
     }
 
     public void executa() {
@@ -78,11 +87,12 @@ public class Empresa {
         }
 
         while (true) {
-            int opcao = 0;
+
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+
             if (usuarioAtivo instanceof Administrador) {
                 menuAdministrador();
-                opcao = scanner.nextInt();
-                scanner.nextLine();
                 switch (opcao) {
                     case 1:
                         trocaUsuario();
@@ -113,7 +123,6 @@ public class Empresa {
                 }
             } else {
                 menuFuncionario();
-                opcao = scanner.nextInt();
                 switch (opcao) {
                     case 1:
                         trocaUsuario();
@@ -143,9 +152,7 @@ public class Empresa {
         System.out.println("║ 7 - Busca Pedidos Por Descricao                      ║");
         System.out.println("║ 8 - Mostra Estatisticas                              ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
-        System.out.println("╔══════════════════════════════════════════════════════╗");
-        System.out.println("║                   Digite uma opção                   ║");
-        System.out.println("╚══════════════════════════════════════════════════════╝");
+        System.out.print("Escolha uma opção: ");
     }
 
     public void menuFuncionario() {
@@ -156,9 +163,7 @@ public class Empresa {
         System.out.println("║ 2 - Registrar Pedido                                 ║");
         System.out.println("║ 3 - Exclui Pedido                                    ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
-        System.out.println("╔══════════════════════════════════════════════════════╗");
-        System.out.println("║                   Digite uma opção                   ║");
-        System.out.println("╚══════════════════════════════════════════════════════╝");
+        System.out.print("Escolha uma opção: ");
     }
 
     private boolean trocaUsuario() {
@@ -174,11 +179,11 @@ public class Empresa {
                 return true;
             }
         }
-    
+
         System.out.println("╔══════════════════════════════════════════════════════╗");
         System.out.println("║                     FALHA AO LOGAR                   ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
-        
+
         return false;
 
     }
