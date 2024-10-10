@@ -17,6 +17,4 @@ public abstract class Usuario {
         return id;
     }
 
-    public abstract void getPedidos();
-
 }
