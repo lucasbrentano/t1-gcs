@@ -79,7 +79,7 @@ public class Empresa {
 
     public void executa() {
         initDados();
- 
+        int opcao;
         boolean trocaDeUsuario = false;
 
         while(!trocaDeUsuario){
@@ -87,12 +87,10 @@ public class Empresa {
         }
 
         while (true) {
-
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
-
             if (usuarioAtivo instanceof Administrador) {
                 menuAdministrador();
+                opcao = scanner.nextInt();
+                scanner.nextLine();
                 switch (opcao) {
                     case 1:
                         trocaUsuario();
@@ -123,6 +121,8 @@ public class Empresa {
                 }
             } else {
                 menuFuncionario();
+                opcao = scanner.nextInt();
+                scanner.nextLine();
                 switch (opcao) {
                     case 1:
                         trocaUsuario();
