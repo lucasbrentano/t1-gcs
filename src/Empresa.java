@@ -313,6 +313,7 @@ public class Empresa {
     public void listarPedidos() {
         String dataInicial;
         String dataFinal;
+        departamento = ((Administrador) usuarioAtivo).getDepartamento();
         List<Pedido> pedidos = departamento.getPedidos();
 
         System.out.println("Digite a data inicial:(Formato : dia/mes/ano ) ");
