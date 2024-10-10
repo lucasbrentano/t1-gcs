@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class Pedido {
-    private int id = 0;
+    private final int id;
     private final Funcionario funcionario;
     private final Departamento departamento;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRENCH);
@@ -14,9 +14,10 @@ public class Pedido {
     private Status status;
     private final double valorTotal;
     private final List<Item> itens;
+    private static int count= 0;
 
     public Pedido (Funcionario funcionario, double valorTotal) {
-        this.id = id;
+        this.id = count++;
         this.funcionario = funcionario;
         this.departamento = funcionario.getDepartamento();
         this.dataAbertura = LocalDate.now();
@@ -28,7 +29,6 @@ public class Pedido {
         } else {
             this.status = Status.ABERTO;
         }
-        id++;
     }
 
     public void addItem(Item item, int quantidade){
