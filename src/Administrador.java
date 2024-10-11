@@ -1,9 +1,6 @@
 import java.sql.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.Map;
 
 public class Administrador extends Funcionario {
 
@@ -71,10 +68,9 @@ public class Administrador extends Funcionario {
 
     public List<Pedido> getPedidosDoMes() {
         List<Pedido> pedidosDoMes = new ArrayList<>();
-        double valorTotal = 0;
 
         for (Pedido p : getDepartamento().getPedidos()) {
-            if (p.getDataAbertura().isBefore(LocalDate.now().minusDays(30))) {
+            if (p.getDataAbertura().isAfter(LocalDate.now().minusMonths(1))) {
                 pedidosDoMes.add(p);
             }
         }
@@ -85,29 +81,31 @@ public class Administrador extends Funcionario {
     public List<String> getValorCadaItem() {
 
         List<Pedido> pedidosDoMes = getPedidosDoMes();
-        List<Item> itens = new ArrayList<>();
+        Set<Item> itens = new HashSet<>();
         List<String> valorCadaItem = new ArrayList<>();
 
         for (Pedido p : pedidosDoMes) {
-            for (Item i : p.getItens()) {
-                if (!itens.contains(i)) {
-                    itens.add(i);
-                }
-            }
+            itens.addAll(p.getItens());
+        }
 
-            for (Item item : itens) {
-                double valor = 0;
+        for (Item item : itens) {
+            System.out.println("Nome:" + item.getDescricao() + " ID:" + item.getId() + " Valor Unitario:" + item.getValorUnitario());
+            double valor = 0.0;
 
-                for (Item i : p.getItens()) {
-                    if (item.getDescricao().equals(i.getDescricao())) {
-                        valor += i.getValorTotal();
+            for (Pedido pedido : pedidosDoMes) {
+
+                for (Item i : pedido.getItens()) {
+                    if (item.getId() == i.getId()) {
+                        valor += i.getValorUnitario();
                     }
                 }
 
-                String itemValue = "Item: %s , Valor: %d ";
-                String itemValueFormat = String.format(itemValue, item.getDescricao(), valor);
+                String itemValue = "Item: %s , Item ID: %d, Valor: %.2f ";
+                String itemValueFormat = String.format(itemValue, item.getDescricao(), item.getId(), valor);
 
-                valorCadaItem.add(itemValueFormat);
+                if (!valorCadaItem.contains(itemValueFormat) && valor != 0.0) {
+                    valorCadaItem.add(itemValueFormat);
+                }
             }
         }
 
@@ -120,13 +118,12 @@ public class Administrador extends Funcionario {
         Pedido pedidoMaisCaro = pedidos.getFirst();
 
         for (Pedido p : pedidos) {
-            if (p.getStatus() == Status.ABERTO &&
-                    p.getValorTotal() > pedidoMaisCaro.getValorTotal()) {
+            if (p.isAberto() && p.getValorTotal() > pedidoMaisCaro.getValorTotal()) {
                 pedidoMaisCaro = p;
             }
         }
 
-        if (pedidoMaisCaro.getStatus() == Status.ABERTO) {
+        if (pedidoMaisCaro.isAberto()) {
             return pedidoMaisCaro;
         } else {
             return null;
