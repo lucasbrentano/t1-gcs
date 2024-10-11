@@ -65,9 +65,17 @@ public class Empresa {
         for (Usuario usuario : usuarios) {
             Pedido pedido = new Pedido((Funcionario) usuario);
 
-            Item item = new Item("Teste", new Random().nextDouble(10.50));
+            String[] possiveisItens = {
+                    "Tinta", "Lapis", "Caneta", "Cafe", "Papel", "Agua", "Grampo", "Lampada"
+            };
 
-            pedido.addItem(item, new Random().nextInt(8));
+            int countItens = possiveisItens.length;
+            int randomIndex = new Random().nextInt(countItens);
+            String nomeItem = possiveisItens[randomIndex];
+
+            Item item = new Item(nomeItem, new Random().nextDouble(0.1,10.50));
+
+            pedido.addItem(item, 5);
 
             ((Funcionario) usuario).getDepartamento().getPedidos().add(pedido);
         }
@@ -351,7 +359,7 @@ public class Empresa {
 
         Map<Status, List<Pedido>> pedidos = ((Administrador) usuarioAtivo).getPedidos();
         List<Pedido> aprovados = pedidos.get(Status.APROVADO);
-        List<Pedido> reprovados = pedidos.get(Status.APROVADO);
+        List<Pedido> reprovados = pedidos.get(Status.REPROVADO);
         List<Pedido> total = pedidos.get(Status.ABERTO);
         List<Pedido> pedidosDoMes = ((Administrador) usuarioAtivo).getPedidosDoMes();
         List<String> valorTotalCadaItem = ((Administrador) usuarioAtivo).getValorCadaItem();
@@ -370,26 +378,51 @@ public class Empresa {
         System.out.println("║                     ESTATISTICAS                     ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
 
-        System.out.println("Pedidos aprovados:");
-        System.out.println(aprovados);
-        System.out.println("Aprovados (%):" + aprovados.size() / total.size() + "%");
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                   PEDIDOS APROVADO                   ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
+        for (Pedido pedidoAprovado : aprovados) {
+            System.out.println(pedidoAprovado);
+        }
+        double aprovadosPercent = ((double) aprovados.size() /total.size())*100;
+        System.out.println("Aprovados: " + aprovadosPercent + "%");
 
-        System.out.println("Pedidos reprovados:");
-        System.out.println(reprovados);
-        System.out.println("Reprovados: " + reprovados.size() / total.size() + "%");
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                   PEDIDOS REPROVADO                  ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
+        for (Pedido pedidoReprovado : reprovados) {
+            System.out.println(pedidoReprovado);
+        }
+        double reprovadosPercent =  ((double) reprovados.size() /total.size())*100;
+        System.out.println("Reprovados: " + reprovadosPercent + "%");
 
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                PEDIDO DE MAIOR VALOR                 ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
         if (pedidoMaisCaro == null) {
             System.out.println("Não há pedido");
         } else {
-            System.out.println("Pedido de maior valor:" + pedidoMaisCaro);
+            System.out.println(pedidoMaisCaro);
         }
 
-        System.out.println("Pedidos dos ultimos 30 dias: ");
-        System.out.println(pedidosDoMes);
-        System.out.println("Valor medio dos pedidos: " + valorMedio);
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                    PEDIDOS DO MES                    ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
+        for (Pedido pedidoDoMes : pedidosDoMes) {
+            System.out.println(pedidoDoMes);
+        }
 
-        System.out.println("Valor total de cada tipo de item: ");
-        System.out.println(valorTotalCadaItem);
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║              VALOR MEDIO DOS PEDIDOS                 ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
+        System.out.println(valorMedio);
+
+        System.out.println("╔══════════════════════════════════════════════════════╗");
+        System.out.println("║                  VALOR DE CADA ITEM                  ║");
+        System.out.println("╚══════════════════════════════════════════════════════╝");
+        for (String valorCadaItem : valorTotalCadaItem) {
+            System.out.println(valorCadaItem);
+        }
 
     }
 
