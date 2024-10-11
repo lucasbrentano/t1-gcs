@@ -15,6 +15,7 @@ public class Pedido {
     private double valorTotal;
     private final List<Item> itens;
     private static int count= 0;
+    private boolean isAberto;
 
     public Pedido (Funcionario funcionario) {
         this.id = count++;
@@ -26,8 +27,10 @@ public class Pedido {
         if (valorTotal > departamento.getLimite()) {
             this.dataFechamento = LocalDate.now();
             this.status = Status.REPROVADO;
+            this.isAberto = false;
         } else {
             this.status = Status.ABERTO;
+            this.isAberto = true;
         }
     }
 
@@ -67,6 +70,14 @@ public class Pedido {
         return this.valorTotal;
     }
 
+    public List<Item> getItens(){
+        return itens;
+    }
+
+    public boolean isAberto() {
+        return isAberto;
+    }
+
     public void setDataFechamento(final LocalDate dataFechamento) {
         this.dataFechamento = dataFechamento;
     }
@@ -75,8 +86,8 @@ public class Pedido {
         this.status = status;
     }
 
-    public List<Item> getItens(){
-        return itens;
+    public void setIsAberto (boolean isAberto) {
+        this.isAberto = isAberto;
     }
 
     public String toString() {
