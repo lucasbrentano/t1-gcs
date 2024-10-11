@@ -430,7 +430,8 @@ public class Empresa {
         Funcionario funcionario = (Funcionario) usuarioAtivo;
         Pedido pedido = new Pedido(funcionario);
 
-        while (!"-1".equals(scanner.nextLine())) {
+        String opcao = "0";
+        while (!opcao.equals("-1")) {
             System.out.println("Insira um item no pedido");
             System.out.println("Descricao do item (nome):");
             String descricao = scanner.nextLine();
@@ -446,6 +447,7 @@ public class Empresa {
             pedido.addItem(item, quantidade);
 
             System.out.println("Deseja continuar? Se sim, digite qualquer coisa. Se nao, digite -1");
+            opcao = scanner.nextLine();
         }
 
 

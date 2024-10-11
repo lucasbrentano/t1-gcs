@@ -89,7 +89,7 @@ public class Administrador extends Funcionario {
         }
 
         for (Item item : itens) {
-            System.out.println("Nome:" + item.getDescricao() + " ID:" + item.getId() + " Valor Unitario:" + item.getValorUnitario());
+            //System.out.println("Nome:" + item.getDescricao() + " ID:" + item.getId() + " Valor Unitario:" + item.getValorUnitario());
             double valor = 0.0;
 
             for (Pedido pedido : pedidosDoMes) {
