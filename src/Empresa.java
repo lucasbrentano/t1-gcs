@@ -153,6 +153,7 @@ public class Empresa {
         System.out.println("║ 2 - Registrar Pedido                                 ║");
         System.out.println("║ 3 - Exclui Pedido                                    ║");
         System.out.println("║ 4 - Avalia Pedido                                    ║");
+        System.out.println("║ 5 - Listar Pedidos                                   ║");
         System.out.println("║ 6 - Busca Pedidos Por Funcionario                    ║");
         System.out.println("║ 7 - Busca Pedidos Por Descricao                      ║");
         System.out.println("║ 8 - Mostra Estatisticas                              ║");
