@@ -24,14 +24,8 @@ public class Pedido {
         this.dataAbertura = LocalDate.now();
         this.valorTotal = 0;
         this.itens = new ArrayList<>();
-        if (valorTotal > departamento.getLimite()) {
-            this.dataFechamento = LocalDate.now();
-            this.status = Status.REPROVADO;
-            this.isAberto = false;
-        } else {
-            this.status = Status.ABERTO;
-            this.isAberto = true;
-        }
+        this.status = Status.ABERTO;
+        this.isAberto = true;
     }
 
     public void addItem(Item item, int quantidade){
@@ -39,6 +33,11 @@ public class Pedido {
         this.valorTotal += item.getValorTotal();
         for (int i=0; i < quantidade; i++){
             itens.add(item);
+        }
+        if (this.valorTotal > departamento.getLimite()) {
+            this.dataFechamento = LocalDate.now();
+            this.status = Status.REPROVADO;
+            this.isAberto = false;
         }
     }
 
