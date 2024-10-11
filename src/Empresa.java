@@ -247,6 +247,7 @@ public class Empresa {
                                 break;
                             case 2:
                                 p.setStatus(Status.REPROVADO);
+                                p.setIsAberto(false);
                                 System.out.println("Pedido reprovado com sucesso!");
                                 break;
                             case 3:
@@ -256,8 +257,12 @@ public class Empresa {
                         }
                         pedidoEncontrado = true;
                         break;
-                    } else if (p.getId() == codigoPedido && !p.getStatus().equals(Status.ABERTO)) {
+                    } else if (p.getId() == codigoPedido && !p.isAberto()) {
                         System.out.println("Pedido " + p.getId() + " encerrado.");
+                        pedidoEncontrado = true;
+                        break;
+                    } else if (p.getId() == codigoPedido && !p.getStatus().equals(Status.ABERTO) && p.isAberto()) {
+                        System.out.println("Pedido " + p.getId() + " já avaliado.");
                         pedidoEncontrado = true;
                         break;
                     }
